@@ -32,7 +32,7 @@ def test_retry_config_applies_jitter() -> None:
         jitter_ratio=0.1,
     )
 
-    with patch("maxbotkit.config.random.uniform", return_value=0.05):
+    with patch("maxbotkit.config.random.random", return_value=0.75):
         assert config.backoff_for_attempt(0) == 1.05
 
 

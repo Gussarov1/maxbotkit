@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import random
 from dataclasses import dataclass
-from typing import cast
 
 
 @dataclass(slots=True)
@@ -24,12 +23,12 @@ class RetryConfig:
             raise ValueError("jitter_ratio must be between 0 and 1.")
 
     def backoff_for_attempt(self, attempt_index: int) -> float:
-        delay = self.backoff_base * (2 ** attempt_index)
+        delay: float = self.backoff_base * (2 ** attempt_index)
         delay = min(delay, self.backoff_max)
         if not self.jitter or delay == 0:
             return delay
-        spread = delay * self.jitter_ratio
-        jitter = cast(float, random.uniform(-spread, spread))
+        spread: float = delay * self.jitter_ratio
+        jitter: float = (-spread) + ((2 * spread) * random.random())
         return delay + jitter
 
 

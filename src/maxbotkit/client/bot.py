@@ -1,11 +1,9 @@
 from __future__ import annotations
 
 import asyncio
-from collections.abc import Mapping
 
 from maxbotkit._internal.typing import MethodLike
-from maxbotkit.client.transport import TransportResponse
-from maxbotkit.client.transport import BaseTransport, UrllibTransport
+from maxbotkit.client.transport import BaseTransport, TransportResponse, UrllibTransport
 from maxbotkit.config import RetryConfig, TimeoutConfig
 from maxbotkit.exceptions.api import APIError, RateLimitError, ServerError
 from maxbotkit.exceptions.transport import RetryableTransportError
@@ -153,12 +151,13 @@ class Bot:
         for attempt_index in range(attempts):
             try:
                 json_body = method.build_body()
-                request_body: Mapping[str, object] | None = json_body or None
+                request_params = dict(method.build_params())
+                request_body: dict[str, object] | None = dict(json_body) if json_body else None
                 response = await self.transport.request(
                     method=method.http_method,
                     base_url=self.base_url,
                     path=method.path,
-                    params=method.build_params(),
+                    params=request_params,
                     json_body=request_body,
                     headers={"Authorization": self.token},
                     timeout=float(method.request_timeout(self.timeout_config.request_timeout)),
