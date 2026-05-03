@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import random
 from dataclasses import dataclass
+from typing import cast
 
 
 @dataclass(slots=True)
@@ -28,7 +29,8 @@ class RetryConfig:
         if not self.jitter or delay == 0:
             return delay
         spread = delay * self.jitter_ratio
-        return delay + random.uniform(-spread, spread)
+        jitter = cast(float, random.uniform(-spread, spread))
+        return delay + jitter
 
 
 @dataclass(slots=True)

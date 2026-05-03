@@ -11,7 +11,7 @@ class FakeTransport(BaseTransport):
         self._responses = list(responses)
         self.calls: list[dict[str, Any]] = []
 
-    async def request(self, **kwargs: Any) -> TransportResponse:  # type: ignore[override]
+    async def request(self, **kwargs: Any) -> TransportResponse:
         self.calls.append(kwargs)
         if not self._responses:
             raise AssertionError("FakeTransport has no more queued responses.")

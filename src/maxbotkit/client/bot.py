@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import asyncio
+from collections.abc import Mapping
 
 from maxbotkit._internal.typing import MethodLike
+from maxbotkit.client.transport import TransportResponse
 from maxbotkit.client.transport import BaseTransport, UrllibTransport
 from maxbotkit.config import RetryConfig, TimeoutConfig
 from maxbotkit.exceptions.api import APIError, RateLimitError, ServerError
@@ -144,19 +146,20 @@ class Bot:
 
         return SubscriptionList.from_dict(response.body)
 
-    async def _request(self, method: MethodLike):
+    async def _request(self, method: MethodLike) -> TransportResponse:
         attempts = self.retry_config.attempts
         last_error: Exception | None = None
 
         for attempt_index in range(attempts):
             try:
                 json_body = method.build_body()
+                request_body: Mapping[str, object] | None = json_body or None
                 response = await self.transport.request(
                     method=method.http_method,
                     base_url=self.base_url,
                     path=method.path,
                     params=method.build_params(),
-                    json_body=json_body or None,
+                    json_body=request_body,
                     headers={"Authorization": self.token},
                     timeout=float(method.request_timeout(self.timeout_config.request_timeout)),
                 )

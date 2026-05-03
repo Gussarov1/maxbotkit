@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Mapping
 from typing import TYPE_CHECKING, Protocol
 
 if TYPE_CHECKING:
@@ -36,9 +37,9 @@ class MethodLike(Protocol):
     path: str
     safe_to_retry: bool
 
-    def build_params(self) -> dict[str, object]: ...
+    def build_params(self) -> Mapping[str, object]: ...
 
-    def build_body(self) -> dict[str, object]: ...
+    def build_body(self) -> Mapping[str, object]: ...
 
     def request_timeout(self, default_timeout: float) -> float: ...
 
@@ -50,8 +51,8 @@ class TransportLike(Protocol):
         method: str,
         base_url: str,
         path: str,
-        params: dict[str, object] | None = None,
-        json_body: dict[str, object] | None = None,
+        params: Mapping[str, object] | None = None,
+        json_body: Mapping[str, object] | None = None,
         headers: dict[str, str] | None = None,
         timeout: float = 10.0,
     ) -> TransportResponse: ...
