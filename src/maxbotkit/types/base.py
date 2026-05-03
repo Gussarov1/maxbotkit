@@ -11,4 +11,4 @@ class BaseModel:
     def from_dict(cls: type[T], data: dict[str, Any]) -> T:
         field_names = {field.name for field in fields(cast(Any, cls))}
         payload = {key: value for key, value in data.items() if key in field_names}
-        return cast(T, cls(**payload))
+        return cls(**payload)

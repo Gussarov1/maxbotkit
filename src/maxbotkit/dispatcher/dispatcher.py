@@ -5,6 +5,7 @@ import inspect
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass, field
 
+from maxbotkit._internal.typing import BotLike
 from maxbotkit.dispatcher.router import MessageFilter, MessageObserver, Router
 from maxbotkit.runtime.polling import run_polling
 from maxbotkit.types.message import Message
@@ -43,7 +44,7 @@ class Dispatcher:
 
     async def start_polling(
         self,
-        bot: object,
+        bot: BotLike,
         *,
         limit: int = 100,
         timeout: int = 30,

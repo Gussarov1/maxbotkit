@@ -1,6 +1,10 @@
 from __future__ import annotations
 
-from typing import Protocol
+from typing import TYPE_CHECKING, Protocol
+
+if TYPE_CHECKING:
+    from maxbotkit.types.message import Message
+    from maxbotkit.types.update import UpdateList
 
 
 class BotLike(Protocol):
@@ -14,7 +18,7 @@ class BotLike(Protocol):
         disable_link_preview: bool | None = None,
         format: str | None = None,
         link: dict[str, str] | None = None,
-    ) -> object: ...
+    ) -> Message: ...
 
     async def get_updates(
         self,
@@ -23,4 +27,4 @@ class BotLike(Protocol):
         timeout: int | None = None,
         marker: int | None = None,
         types: list[str] | None = None,
-    ) -> object: ...
+    ) -> UpdateList: ...
