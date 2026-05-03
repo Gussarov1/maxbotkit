@@ -233,7 +233,7 @@ python -m twine check dist/*
 
 ## Roadmap
 
-`0.0.2` is a polish release on top of the bootstrap milestone. The next milestones focus on:
+`0.1.0` establishes the core API client layer. The next milestones focus on:
 
 - stronger client typing
 - broader MAX API coverage
