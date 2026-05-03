@@ -89,7 +89,8 @@ class UrllibTransport(BaseTransport):
         req = request.Request(url=url, data=payload, headers=request_headers, method=method.upper())
 
         try:
-            with request.urlopen(req, timeout=timeout, context=self._build_ssl_context()) as response:
+            ssl_context = self._build_ssl_context()
+            with request.urlopen(req, timeout=timeout, context=ssl_context) as response:
                 raw_body = response.read().decode("utf-8")
                 return TransportResponse(
                     status_code=response.status,

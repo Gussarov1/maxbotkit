@@ -19,10 +19,14 @@ class Update(BaseModel):
     @classmethod
     def from_dict(cls, data: dict[str, Any], *, bot: Any = None) -> "Update":
         message_payload = data.get("message")
+        message = None
+        if isinstance(message_payload, dict):
+            message = Message.from_api_response(message_payload, bot=bot)
+
         return cls(
             update_type=data["update_type"],
             timestamp=data["timestamp"],
-            message=Message.from_api_response(message_payload, bot=bot) if isinstance(message_payload, dict) else None,
+            message=message,
             user_locale=data.get("user_locale"),
             payload=data,
             _bot=bot,
@@ -37,7 +41,11 @@ class UpdateList(BaseModel):
     @classmethod
     def from_dict(cls, data: dict[str, Any], *, bot: Any = None) -> "UpdateList":
         updates_payload = data.get("updates", [])
-        updates = [Update.from_dict(item, bot=bot) for item in updates_payload if isinstance(item, dict)]
+        updates = [
+            Update.from_dict(item, bot=bot)
+            for item in updates_payload
+            if isinstance(item, dict)
+        ]
         return cls(
             updates=updates,
             marker=data.get("marker"),

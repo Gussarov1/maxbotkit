@@ -5,7 +5,7 @@ import inspect
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass, field
 
-from maxbotkit.types.update import Update, UpdateList
+from maxbotkit.types.update import Update
 
 UpdateHandler = Callable[[Update], object | Awaitable[object]]
 
