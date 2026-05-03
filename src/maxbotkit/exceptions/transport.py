@@ -1,5 +1,5 @@
-from maxbotkit.exceptions.base import MaxBotError
+from maxbotkit.exceptions.base import MaxBotKitError
 
 
-class TransportError(MaxBotError):
+class TransportError(MaxBotKitError):
     """Raised when the HTTP transport cannot reach the API."""

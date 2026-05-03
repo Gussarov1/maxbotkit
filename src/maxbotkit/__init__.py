@@ -9,6 +9,8 @@ from maxbotkit.types.subscription import Subscription, SubscriptionList
 from maxbotkit.types.update import Update, UpdateList
 from maxbotkit.types.user import User
 
+__version__ = "0.0.2"
+
 __all__ = [
     "Bot",
     "Chat",
@@ -23,5 +25,6 @@ __all__ = [
     "Update",
     "UpdateList",
     "User",
+    "__version__",
     "run_polling",
 ]

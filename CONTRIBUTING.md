@@ -28,6 +28,20 @@ python -m mypy src
 - Update `README.md` or `CHANGELOG.md` when user-facing behavior changes.
 - Prefer typed interfaces and explicit error handling.
 
+## Release checklist
+
+For manual releases:
+
+```bash
+python -m pip install -e '.[dev]' --no-build-isolation
+env PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests
+python -m ruff check .
+python -m mypy src
+rm -rf build dist
+python -m build
+python -m twine check dist/*
+```
+
 ## Design direction
 
 The project aims for:
