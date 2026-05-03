@@ -23,4 +23,45 @@ class APIError(MaxBotKitError):
             )
         else:
             message = str(payload) if payload else "Unknown API error"
-        return cls(status_code=status_code, message=message, payload=payload)
+        error_cls = _error_class_for_status(status_code)
+        return error_cls(status_code=status_code, message=message, payload=payload)
+
+
+class BadRequestError(APIError):
+    pass
+
+
+class UnauthorizedError(APIError):
+    pass
+
+
+class ForbiddenError(APIError):
+    pass
+
+
+class NotFoundError(APIError):
+    pass
+
+
+class RateLimitError(APIError):
+    pass
+
+
+class ServerError(APIError):
+    pass
+
+
+def _error_class_for_status(status_code: int) -> type[APIError]:
+    if status_code == 400:
+        return BadRequestError
+    if status_code == 401:
+        return UnauthorizedError
+    if status_code == 403:
+        return ForbiddenError
+    if status_code == 404:
+        return NotFoundError
+    if status_code == 429:
+        return RateLimitError
+    if status_code >= 500:
+        return ServerError
+    return APIError
