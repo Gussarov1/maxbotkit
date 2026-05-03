@@ -4,13 +4,16 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "maxbotkit"
-version = "0.0.1"
+version = "0.0.2"
 description = "Async Python framework for MAX bots."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
 authors = [
-  { name = "MaxBot contributors" },
+  { name = "MaxBotKit contributors" },
+]
+maintainers = [
+  { name = "MaxBotKit contributors" },
 ]
 keywords = ["max", "bot", "messenger", "framework", "asyncio"]
 classifiers = [
@@ -27,12 +30,20 @@ classifiers = [
 ]
 dependencies = []
 
+[project.urls]
+Homepage = "https://github.com/gussarov/maxbotkit"
+Repository = "https://github.com/gussarov/maxbotkit"
+Issues = "https://github.com/gussarov/maxbotkit/issues"
+Changelog = "https://github.com/gussarov/maxbotkit/releases"
+
 [project.optional-dependencies]
 dev = [
+  "build>=1.2",
   "pytest>=8",
   "mypy>=1.10",
   "pre-commit>=3.7",
   "ruff>=0.11.0",
+  "twine>=5.0",
 ]
 
 [tool.setuptools]

@@ -22,7 +22,7 @@ python -m pip install maxbotkit
 For local development:
 
 ```bash
-python -m pip install -e .[dev] --no-build-isolation
+python -m pip install -e '.[dev]' --no-build-isolation
 ```
 
 ## Quickstart
@@ -31,7 +31,8 @@ python -m pip install -e .[dev] --no-build-isolation
 import asyncio
 import os
 
-from maxbotkit import Bot, Command, Dispatcher, Router
+from maxbotkit import Bot, Dispatcher, Router
+from maxbotkit.filters import Command
 
 
 bot = Bot(
@@ -79,9 +80,20 @@ python -m ruff check .
 python -m mypy src
 ```
 
+Build release artifacts:
+
+```bash
+python -m build
+python -m twine check dist/*
+```
+
+## Examples
+
+- [Echo Bot](examples/echo_bot/bot.py)
+
 ## Roadmap
 
-`0.0.1` is the bootstrap release. The next milestones focus on:
+`0.0.2` is a polish release on top of the bootstrap milestone. The next milestones focus on:
 
 - stronger client typing
 - broader MAX API coverage

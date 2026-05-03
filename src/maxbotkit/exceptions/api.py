@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from typing import Any
 
-from maxbotkit.exceptions.base import MaxBotError
+from maxbotkit.exceptions.base import MaxBotKitError
 
 
-class APIError(MaxBotError):
+class APIError(MaxBotKitError):
     def __init__(self, status_code: int, message: str, payload: Any = None) -> None:
         super().__init__(f"MAX API returned {status_code}: {message}")
         self.status_code = status_code
