@@ -3,16 +3,16 @@ from __future__ import annotations
 import asyncio
 
 from maxbotkit._internal.typing import MethodLike
-from maxbotkit.config import RetryConfig, TimeoutConfig
 from maxbotkit.client.transport import BaseTransport, UrllibTransport
+from maxbotkit.config import RetryConfig, TimeoutConfig
 from maxbotkit.exceptions.api import APIError, RateLimitError, ServerError
 from maxbotkit.exceptions.transport import RetryableTransportError
+from maxbotkit.methods.delete_message import DeleteMessage
+from maxbotkit.methods.edit_message import EditMessage
 from maxbotkit.methods.get_chats import GetChats
 from maxbotkit.methods.get_me import GetMe
 from maxbotkit.methods.get_subscriptions import GetSubscriptions
 from maxbotkit.methods.get_updates import GetUpdates
-from maxbotkit.methods.delete_message import DeleteMessage
-from maxbotkit.methods.edit_message import EditMessage
 from maxbotkit.methods.send_message import SendMessage
 from maxbotkit.types.chat import ChatList
 from maxbotkit.types.message import Message
@@ -171,7 +171,11 @@ class Bot:
                 return response
 
             error = APIError.from_response(response.status_code, response.body)
-            if self._should_retry_api_error(method=method, error=error, attempt_index=attempt_index):
+            if self._should_retry_api_error(
+                method=method,
+                error=error,
+                attempt_index=attempt_index,
+            ):
                 last_error = error
                 await asyncio.sleep(self.retry_config.backoff_for_attempt(attempt_index))
                 continue

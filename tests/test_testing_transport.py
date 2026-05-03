@@ -16,7 +16,11 @@ def test_fake_transport_returns_queued_response() -> None:
             ]
         )
 
-        response = await transport.request(method="GET", base_url="https://example.com", path="/ping")
+        response = await transport.request(
+            method="GET",
+            base_url="https://example.com",
+            path="/ping",
+        )
 
         assert response.status_code == 200
         assert response.body == {"ok": True}
