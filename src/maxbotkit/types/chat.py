@@ -8,6 +8,8 @@ from maxbotkit.types.base import BaseModel
 
 @dataclass(slots=True)
 class Chat(BaseModel):
+    """Chat model returned by MAX chat-listing methods."""
+
     chat_id: int | None = None
     type: str | None = None
     status: str | None = None
@@ -20,11 +22,14 @@ class Chat(BaseModel):
 
 @dataclass(slots=True)
 class ChatList(BaseModel):
+    """Paginated list of chats."""
+
     chats: list[Chat]
     marker: int | None = None
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "ChatList":
+        """Build a chat page from a raw API payload."""
         chats_payload = data.get("chats", [])
         chats = [Chat.from_dict(item) for item in chats_payload if isinstance(item, dict)]
         return cls(

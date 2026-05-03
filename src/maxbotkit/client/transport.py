@@ -12,12 +12,16 @@ from maxbotkit.exceptions.transport import RetryableTransportError, TransportErr
 
 @dataclass(slots=True)
 class TransportResponse:
+    """Low-level HTTP response wrapper used by transports."""
+
     status_code: int
     body: Any
     headers: dict[str, str]
 
 
 class BaseTransport:
+    """Abstract transport used by :class:`maxbotkit.client.bot.Bot`."""
+
     async def request(
         self,
         *,
@@ -29,10 +33,13 @@ class BaseTransport:
         headers: dict[str, str] | None = None,
         timeout: float = 10.0,
     ) -> TransportResponse:
+        """Execute a single HTTP request against the MAX API."""
         raise NotImplementedError
 
 
 class UrllibTransport(BaseTransport):
+    """Default transport implementation backed by the Python standard library."""
+
     def __init__(
         self,
         *,

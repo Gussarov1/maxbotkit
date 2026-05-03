@@ -7,6 +7,8 @@ from maxbotkit.methods.base import APIMethod
 
 @dataclass(slots=True)
 class GetSubscriptions(APIMethod):
+    """GET ``/subscriptions`` request."""
+
     http_method: str = "GET"
     path: str = "/subscriptions"
     safe_to_retry: bool = True

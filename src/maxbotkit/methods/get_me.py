@@ -7,6 +7,8 @@ from maxbotkit.methods.base import APIMethod
 
 @dataclass(slots=True)
 class GetMe(APIMethod):
+    """GET ``/me`` request."""
+
     http_method: str = "GET"
     path: str = "/me"
     safe_to_retry: bool = True

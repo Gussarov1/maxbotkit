@@ -22,6 +22,21 @@ from maxbotkit.types.user import User
 
 
 class Bot:
+    """Async MAX Bot API client with basic reliability and testing hooks.
+
+    Args:
+        token: Bot token used for the ``Authorization`` header.
+        base_url: Base MAX API URL. Override this for internal or test setups.
+        transport: Custom transport implementation. When omitted, the default
+            urllib-based transport is used.
+        timeout: Fallback request timeout in seconds when no timeout config is
+            provided.
+        timeout_config: Structured timeout settings.
+        retry_config: Structured retry settings for retry-safe methods.
+        verify_ssl: Whether TLS certificates should be verified.
+        ca_file: Optional path to a custom CA bundle.
+    """
+
     def __init__(
         self,
         token: str,
@@ -51,6 +66,10 @@ class Bot:
         format: str | None = None,
         link: dict[str, str] | None = None,
     ) -> Message:
+        """Send a text message to a chat or user.
+
+        Exactly one of ``chat_id`` or ``user_id`` must be provided.
+        """
         method = SendMessage(
             text=text,
             chat_id=chat_id,
@@ -74,6 +93,7 @@ class Bot:
         format: str | None = None,
         link: dict[str, str] | None = None,
     ) -> bool:
+        """Edit an existing message by its MAX message identifier."""
         method = EditMessage(
             message_id=message_id,
             text=text,
@@ -92,6 +112,7 @@ class Bot:
         *,
         message_id: str,
     ) -> bool:
+        """Delete a message by its MAX message identifier."""
         method = DeleteMessage(message_id=message_id)
 
         response = await self._request(method)
@@ -105,6 +126,7 @@ class Bot:
         count: int | None = None,
         marker: int | None = None,
     ) -> ChatList:
+        """Return chats visible to the bot."""
         method = GetChats(count=count, marker=marker)
 
         response = await self._request(method)
@@ -112,6 +134,7 @@ class Bot:
         return ChatList.from_dict(response.body)
 
     async def get_me(self) -> User:
+        """Return information about the current bot account."""
         method = GetMe()
 
         response = await self._request(method)
@@ -126,6 +149,7 @@ class Bot:
         marker: int | None = None,
         types: list[str] | None = None,
     ) -> UpdateList:
+        """Fetch updates using the MAX long-polling API."""
         method = GetUpdates(
             limit=limit,
             timeout=timeout,
@@ -138,6 +162,7 @@ class Bot:
         return UpdateList.from_dict(response.body, bot=self)
 
     async def get_subscriptions(self) -> SubscriptionList:
+        """Return webhook subscriptions currently configured for the bot."""
         method = GetSubscriptions()
 
         response = await self._request(method)

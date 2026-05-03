@@ -7,6 +7,8 @@ from maxbotkit.types.base import BaseModel
 
 @dataclass(slots=True)
 class User(BaseModel):
+    """User or bot profile returned by MAX API methods."""
+
     user_id: int | None = None
     first_name: str | None = None
     last_name: str | None = None

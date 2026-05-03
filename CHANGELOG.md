@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.1.1 - 2026-05-03
+
+- Added docstrings across the public client, runtime, model, exception, and
+  method layers for better IDE discoverability.
+- Polished examples with module descriptions and safer environment variable
+  handling.
+- Expanded README with typed API error handling examples.
+- Added targeted tests for API error classification and example metadata.
+- Cleaned up package metadata and project URLs for the current GitHub
+  repository owner.
+
 ## 0.1.0 - 2026-05-03
 
 - Expanded the core MAX Bot API client around a reusable request pipeline.

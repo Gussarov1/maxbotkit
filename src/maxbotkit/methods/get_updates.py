@@ -7,6 +7,8 @@ from maxbotkit.methods.base import APIMethod
 
 @dataclass(slots=True)
 class GetUpdates(APIMethod):
+    """GET ``/updates`` request for MAX long polling."""
+
     limit: int | None = None
     timeout: int | None = None
     marker: int | None = None
@@ -23,6 +25,7 @@ class GetUpdates(APIMethod):
             raise ValueError("timeout must be between 0 and 90.")
 
     def build_params(self) -> dict[str, int | str | None]:
+        """Return query parameters expected by the updates endpoint."""
         return {
             "limit": self.limit,
             "timeout": self.timeout,
@@ -31,6 +34,7 @@ class GetUpdates(APIMethod):
         }
 
     def request_timeout(self, default_timeout: float) -> float:
+        """Extend the HTTP timeout so long polling can complete normally."""
         if self.timeout is None:
             return default_timeout
         return max(default_timeout, float(self.timeout) + 5.0)

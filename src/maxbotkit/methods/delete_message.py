@@ -7,6 +7,8 @@ from maxbotkit.methods.base import APIMethod
 
 @dataclass(slots=True)
 class DeleteMessage(APIMethod):
+    """DELETE ``/messages`` request."""
+
     message_id: str
 
     http_method: str = "DELETE"
@@ -18,6 +20,7 @@ class DeleteMessage(APIMethod):
             raise ValueError("message_id must be a non-empty string.")
 
     def build_params(self) -> dict[str, str]:
+        """Return query parameters expected by the delete endpoint."""
         return {
             "message_id": self.message_id,
         }

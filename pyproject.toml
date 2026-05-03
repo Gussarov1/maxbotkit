@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "maxbotkit"
-version = "0.1.0"
+version = "0.1.1"
 description = "Async Python framework for MAX bots."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -31,10 +31,11 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/gussarov/maxbotkit"
-Repository = "https://github.com/gussarov/maxbotkit"
-Issues = "https://github.com/gussarov/maxbotkit/issues"
-Changelog = "https://github.com/gussarov/maxbotkit/releases"
+Documentation = "https://github.com/gussarov1/maxbotkit#readme"
+Homepage = "https://github.com/gussarov1/maxbotkit"
+Repository = "https://github.com/gussarov1/maxbotkit"
+Issues = "https://github.com/gussarov1/maxbotkit/issues"
+Changelog = "https://github.com/gussarov1/maxbotkit/releases"
 
 [project.optional-dependencies]
 dev = [

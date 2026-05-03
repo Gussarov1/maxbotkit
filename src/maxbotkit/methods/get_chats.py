@@ -7,6 +7,8 @@ from maxbotkit.methods.base import APIMethod
 
 @dataclass(slots=True)
 class GetChats(APIMethod):
+    """GET ``/chats`` request."""
+
     count: int | None = None
     marker: int | None = None
 
@@ -19,6 +21,7 @@ class GetChats(APIMethod):
             raise ValueError("count must be between 1 and 100.")
 
     def build_params(self) -> dict[str, int | None]:
+        """Return query parameters expected by the chats endpoint."""
         return {
             "count": self.count,
             "marker": self.marker,
