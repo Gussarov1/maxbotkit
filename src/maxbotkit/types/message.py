@@ -1,10 +1,14 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
+from maxbotkit._internal.typing import BotLike
 from maxbotkit.types.base import BaseModel
 from maxbotkit.types.user import User
+
+if TYPE_CHECKING:
+    from maxbotkit.types.message import Message as MessageType
 
 
 @dataclass(slots=True)
@@ -28,7 +32,7 @@ class Message(BaseModel):
     timestamp: int
     body: MessageBody | None = None
     url: str | None = None
-    _bot: Any = field(default=None, repr=False, compare=False)
+    _bot: BotLike | None = field(default=None, repr=False, compare=False)
 
     @property
     def text(self) -> str | None:
@@ -50,7 +54,7 @@ class Message(BaseModel):
         disable_link_preview: bool | None = None,
         format: str | None = None,
         link: dict[str, str] | None = None,
-    ) -> "Message":
+    ) -> MessageType:
         if self._bot is None:
             raise RuntimeError("Message is not bound to a bot.")
         if self.recipient.chat_id is not None:
@@ -80,7 +84,7 @@ class Message(BaseModel):
         notify: bool = True,
         disable_link_preview: bool | None = None,
         format: str | None = None,
-    ) -> "Message":
+    ) -> MessageType:
         if self.message_id is None:
             raise RuntimeError("Message does not contain a message_id.")
         return await self.answer(
@@ -92,7 +96,7 @@ class Message(BaseModel):
         )
 
     @classmethod
-    def from_api_response(cls, data: dict[str, Any], *, bot: Any = None) -> "Message":
+    def from_api_response(cls, data: dict[str, Any], *, bot: BotLike | None = None) -> MessageType:
         payload = data.get("message", data)
         sender_payload = payload.get("sender")
         body_payload = payload.get("body")

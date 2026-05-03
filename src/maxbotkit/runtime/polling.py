@@ -5,6 +5,7 @@ import inspect
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass, field
 
+from maxbotkit._internal.typing import BotLike
 from maxbotkit.types.update import Update
 
 UpdateHandler = Callable[[Update], object | Awaitable[object]]
@@ -12,7 +13,7 @@ UpdateHandler = Callable[[Update], object | Awaitable[object]]
 
 @dataclass(slots=True)
 class PollingRunner:
-    bot: object
+    bot: BotLike
     on_update: UpdateHandler
     limit: int = 100
     timeout: int = 30
@@ -48,7 +49,7 @@ class PollingRunner:
 
 
 async def run_polling(
-    bot: object,
+    bot: BotLike,
     *,
     on_update: UpdateHandler,
     limit: int = 100,

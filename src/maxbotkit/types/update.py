@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
+from maxbotkit._internal.typing import BotLike
 from maxbotkit.types.base import BaseModel
 from maxbotkit.types.message import Message
 
@@ -14,10 +15,10 @@ class Update(BaseModel):
     message: Message | None = None
     user_locale: str | None = None
     payload: dict[str, Any] | None = None
-    _bot: Any = field(default=None, repr=False, compare=False)
+    _bot: BotLike | None = field(default=None, repr=False, compare=False)
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any], *, bot: Any = None) -> "Update":
+    def from_dict(cls, data: dict[str, Any], *, bot: BotLike | None = None) -> "Update":
         message_payload = data.get("message")
         message = None
         if isinstance(message_payload, dict):
@@ -39,7 +40,7 @@ class UpdateList(BaseModel):
     marker: int | None = None
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any], *, bot: Any = None) -> "UpdateList":
+    def from_dict(cls, data: dict[str, Any], *, bot: BotLike | None = None) -> "UpdateList":
         updates_payload = data.get("updates", [])
         updates = [
             Update.from_dict(item, bot=bot)
