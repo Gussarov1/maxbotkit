@@ -6,6 +6,8 @@ from maxbotkit.exceptions.base import MaxBotKitError
 
 
 class APIError(MaxBotKitError):
+    """Base class for errors returned by the MAX HTTP API."""
+
     def __init__(self, status_code: int, message: str, payload: Any = None) -> None:
         super().__init__(f"MAX API returned {status_code}: {message}")
         self.status_code = status_code
@@ -14,6 +16,7 @@ class APIError(MaxBotKitError):
 
     @classmethod
     def from_response(cls, status_code: int, payload: Any) -> "APIError":
+        """Build the most specific API error for a response payload."""
         if isinstance(payload, dict):
             message = (
                 payload.get("message")
@@ -28,30 +31,31 @@ class APIError(MaxBotKitError):
 
 
 class BadRequestError(APIError):
-    pass
+    """Raised for ``400 Bad Request`` responses."""
 
 
 class UnauthorizedError(APIError):
-    pass
+    """Raised for ``401 Unauthorized`` responses."""
 
 
 class ForbiddenError(APIError):
-    pass
+    """Raised for ``403 Forbidden`` responses."""
 
 
 class NotFoundError(APIError):
-    pass
+    """Raised for ``404 Not Found`` responses."""
 
 
 class RateLimitError(APIError):
-    pass
+    """Raised for ``429 Too Many Requests`` responses."""
 
 
 class ServerError(APIError):
-    pass
+    """Raised for ``5xx`` server-side MAX API responses."""
 
 
 def _error_class_for_status(status_code: int) -> type[APIError]:
+    """Return the exception type that best matches an HTTP status code."""
     if status_code == 400:
         return BadRequestError
     if status_code == 401:

@@ -16,9 +16,16 @@ MessageHandler = Callable[[Message], object | Awaitable[object]]
 
 @dataclass(slots=True)
 class Dispatcher:
+    """Consumes updates and dispatches matching messages to registered handlers.
+
+    The dispatcher is the runtime entrypoint for router-based applications and
+    is typically started with :meth:`start_polling`.
+    """
+
     _message_handlers: list[MessageObserver] = field(default_factory=list)
 
     def message(self, *filters: MessageFilter) -> Callable[[MessageHandler], MessageHandler]:
+        """Register a top-level message handler on the dispatcher itself."""
         def decorator(handler: MessageHandler) -> MessageHandler:
             self._message_handlers.append(MessageObserver(handler=handler, filters=filters))
             return handler
@@ -26,9 +33,11 @@ class Dispatcher:
         return decorator
 
     def include_router(self, router: Router) -> None:
+        """Include handlers from a router into this dispatcher."""
         self._message_handlers.extend(router.message_handlers)
 
     async def feed_update(self, update: Update) -> None:
+        """Process a single update and call every matching message handler."""
         if update.update_type != "message_created":
             return
         if update.message is None:
@@ -52,6 +61,7 @@ class Dispatcher:
         types: list[str] | None = None,
         stop_event: asyncio.Event | None = None,
     ) -> None:
+        """Start long polling MAX updates and dispatch them to handlers."""
         allowed_types = types or ["message_created"]
         await run_polling(
             bot,

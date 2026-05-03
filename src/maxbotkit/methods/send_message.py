@@ -7,6 +7,8 @@ from maxbotkit.methods.base import APIMethod
 
 @dataclass(slots=True)
 class SendMessage(APIMethod):
+    """POST ``/messages`` request for sending a text message."""
+
     text: str
     chat_id: int | None = None
     user_id: int | None = None
@@ -30,6 +32,7 @@ class SendMessage(APIMethod):
             raise ValueError("format must be one of: 'markdown', 'html', or None.")
 
     def build_params(self) -> dict[str, int | bool | None]:
+        """Return query parameters expected by the send endpoint."""
         return {
             "chat_id": self.chat_id,
             "user_id": self.user_id,
@@ -37,6 +40,7 @@ class SendMessage(APIMethod):
         }
 
     def build_body(self) -> dict[str, str | bool | dict[str, str] | None]:
+        """Return the JSON body for the send request."""
         return {
             "text": self.text,
             "notify": self.notify,

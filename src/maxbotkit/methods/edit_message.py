@@ -7,6 +7,8 @@ from maxbotkit.methods.base import APIMethod
 
 @dataclass(slots=True)
 class EditMessage(APIMethod):
+    """PUT ``/messages`` request for editing an existing message."""
+
     message_id: str
     text: str
     notify: bool = True
@@ -28,11 +30,13 @@ class EditMessage(APIMethod):
             raise ValueError("format must be one of: 'markdown', 'html', or None.")
 
     def build_params(self) -> dict[str, str]:
+        """Return query parameters expected by the edit endpoint."""
         return {
             "message_id": self.message_id,
         }
 
     def build_body(self) -> dict[str, str | bool | dict[str, str] | None]:
+        """Return the JSON body for the edit request."""
         return {
             "text": self.text,
             "notify": self.notify,

@@ -6,6 +6,16 @@ from dataclasses import dataclass
 
 @dataclass(slots=True)
 class RetryConfig:
+    """Controls retry behavior for retry-safe client requests.
+
+    Attributes:
+        attempts: Total number of attempts including the initial request.
+        backoff_base: Initial backoff delay in seconds.
+        backoff_max: Maximum backoff delay in seconds.
+        jitter: Whether to randomize each backoff interval slightly.
+        jitter_ratio: Maximum percentage of the delay used for jitter.
+    """
+
     attempts: int = 1
     backoff_base: float = 0.5
     backoff_max: float = 8.0
@@ -23,6 +33,7 @@ class RetryConfig:
             raise ValueError("jitter_ratio must be between 0 and 1.")
 
     def backoff_for_attempt(self, attempt_index: int) -> float:
+        """Return the delay in seconds before the next retry attempt."""
         delay: float = self.backoff_base * (2 ** attempt_index)
         delay = min(delay, self.backoff_max)
         if not self.jitter or delay == 0:
@@ -34,6 +45,8 @@ class RetryConfig:
 
 @dataclass(slots=True)
 class TimeoutConfig:
+    """Controls request timeout settings for the MAX API client."""
+
     request_timeout: float = 10.0
 
     def __post_init__(self) -> None:

@@ -13,6 +13,8 @@ UpdateHandler = Callable[[Update], object | Awaitable[object]]
 
 @dataclass(slots=True)
 class PollingRunner:
+    """Stateful long-polling runner for receiving MAX updates."""
+
     bot: BotLike
     on_update: UpdateHandler
     limit: int = 100
@@ -22,6 +24,7 @@ class PollingRunner:
     stop_event: asyncio.Event = field(default_factory=asyncio.Event)
 
     async def run(self) -> None:
+        """Continuously fetch updates until the stop event is set."""
         while not self.stop_event.is_set():
             page = await self.bot.get_updates(
                 limit=self.limit,
@@ -40,6 +43,7 @@ class PollingRunner:
                     break
 
     def stop(self) -> None:
+        """Request a graceful stop for the polling loop."""
         self.stop_event.set()
 
     async def _handle_update(self, update: Update) -> None:
@@ -58,6 +62,7 @@ async def run_polling(
     types: list[str] | None = None,
     stop_event: asyncio.Event | None = None,
 ) -> None:
+    """Run a simple long-polling loop and forward each update to a callback."""
     runner = PollingRunner(
         bot=bot,
         on_update=on_update,

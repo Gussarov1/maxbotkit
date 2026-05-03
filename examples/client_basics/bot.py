@@ -1,3 +1,5 @@
+"""Small client-only example for inspecting the bot profile and available chats."""
+
 import asyncio
 import os
 
@@ -9,8 +11,12 @@ load_dotenv()
 
 
 async def main() -> None:
+    token = os.environ.get("MAX_TOKEN")
+    if not token:
+        raise RuntimeError("Set MAX_TOKEN before running this example.")
+
     bot = Bot(
-        token=os.environ["MAX_TOKEN"],
+        token=token,
         verify_ssl=False,
         timeout_config=TimeoutConfig(request_timeout=15.0),
         retry_config=RetryConfig(

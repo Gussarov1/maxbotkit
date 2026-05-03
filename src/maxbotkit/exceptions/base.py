@@ -1,2 +1,2 @@
 class MaxBotKitError(Exception):
-    """Base exception for maxbotkit."""
+    """Base exception for all errors raised by ``maxbotkit``."""

@@ -186,6 +186,24 @@ This makes it easy to test:
 - error classification
 - handler logic without talking to the real MAX API
 
+### Error handling
+
+Client methods raise typed exceptions for common API failures:
+
+```python
+from maxbotkit import Bot
+from maxbotkit.exceptions.api import RateLimitError, UnauthorizedError
+
+bot = Bot(token="TOKEN")
+
+try:
+    await bot.get_me()
+except UnauthorizedError:
+    print("The bot token is invalid.")
+except RateLimitError:
+    print("The API asked us to slow down.")
+```
+
 ## Public API
 
 Current top-level imports:
@@ -233,7 +251,8 @@ python -m twine check dist/*
 
 ## Roadmap
 
-`0.1.0` establishes the core API client layer. The next milestones focus on:
+`0.1.1` adds documentation and DX polish on top of the core client layer. The
+next milestones focus on:
 
 - stronger client typing
 - broader MAX API coverage

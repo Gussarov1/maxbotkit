@@ -10,7 +10,7 @@ from maxbotkit.types.subscription import Subscription, SubscriptionList
 from maxbotkit.types.update import Update, UpdateList
 from maxbotkit.types.user import User
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 __all__ = [
     "Bot",

@@ -1,3 +1,5 @@
+"""Example of testing the client without talking to the real MAX API."""
+
 import asyncio
 
 from maxbotkit import Bot
