@@ -14,6 +14,7 @@ class GetUpdates(APIMethod):
 
     http_method: str = "GET"
     path: str = "/updates"
+    safe_to_retry: bool = True
 
     def __post_init__(self) -> None:
         if self.limit is not None and not 1 <= self.limit <= 1000:

@@ -9,3 +9,4 @@ from maxbotkit.methods.base import APIMethod
 class GetMe(APIMethod):
     http_method: str = "GET"
     path: str = "/me"
+    safe_to_retry: bool = True

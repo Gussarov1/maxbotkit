@@ -1,4 +1,5 @@
-from maxbotkit.client.bot import Bot
+from maxbotkit.client.bot import Bot, MaxClient
+from maxbotkit.config import RetryConfig, TimeoutConfig
 from maxbotkit.dispatcher.dispatcher import Dispatcher
 from maxbotkit.dispatcher.router import Router
 from maxbotkit.filters.command import Command
@@ -17,11 +18,14 @@ __all__ = [
     "ChatList",
     "Command",
     "Dispatcher",
+    "MaxClient",
     "Message",
     "PollingRunner",
+    "RetryConfig",
     "Router",
     "Subscription",
     "SubscriptionList",
+    "TimeoutConfig",
     "Update",
     "UpdateList",
     "User",

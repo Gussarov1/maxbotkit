@@ -9,3 +9,4 @@ from maxbotkit.methods.base import APIMethod
 class GetSubscriptions(APIMethod):
     http_method: str = "GET"
     path: str = "/subscriptions"
+    safe_to_retry: bool = True

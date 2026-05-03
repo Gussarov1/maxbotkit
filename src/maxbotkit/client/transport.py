@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from typing import Any
 from urllib import error, parse, request
 
-from maxbotkit.exceptions.transport import TransportError
+from maxbotkit.exceptions.transport import RetryableTransportError, TransportError
 
 
 @dataclass(slots=True)
@@ -104,7 +104,11 @@ class UrllibTransport(BaseTransport):
                 body=self._decode_body(raw_body),
                 headers=dict(exc.headers.items()),
             )
-        except (error.URLError, TimeoutError) as exc:
+        except TimeoutError as exc:
+            raise RetryableTransportError(str(exc)) from exc
+        except error.URLError as exc:
+            raise RetryableTransportError(str(exc)) from exc
+        except OSError as exc:
             raise TransportError(str(exc)) from exc
 
     @staticmethod
